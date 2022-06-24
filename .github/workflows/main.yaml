@@ -24,4 +24,4 @@ jobs:
       run: docker build . --file Dockerfile --tag bertoxious/check-prod:$(date +%s)
 
     - name: Docker Push
-      run: docker push bertoxioius/check-prod
+      run: docker push bertoxious/check-prod
