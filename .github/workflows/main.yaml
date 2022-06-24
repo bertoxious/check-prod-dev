@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  build:
+  imagebuild:
 
     runs-on: ubuntu-latest
 
