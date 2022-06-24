@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 env:
 #  TIME_STAMP: $(date) + $(time)
-  TIME_STAMP: "DEMO"
+  TIME_STAMP: $(date +%Y%m%d%H%M)
 jobs:
 
   imagebuild:
