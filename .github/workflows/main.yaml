@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [ main ]
 env:
-#  TIME_STAMP: $(date) + $(time)
   TIME_STAMP: $(date)
 jobs:
 
