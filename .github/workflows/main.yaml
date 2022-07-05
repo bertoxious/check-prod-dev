@@ -22,5 +22,5 @@ jobs:
     - name: Checking command
       run: pwd
     - name: Checking command 2 
-      run: ls
+      run: docker-compose up -d --build
       
