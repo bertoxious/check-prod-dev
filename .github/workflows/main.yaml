@@ -1,36 +1,29 @@
-name: Docker Image CI
+name: AWS SSM Send-Command Example
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-#env:
-#  TIME_STAMP: $(date)
+    branches: [master]
+
 jobs:
-
-  imagebuild:
-
+  start:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Get current date
-      id: date
-      run: echo "::set-output name=date::$(date +'doctor-strange-%Y-%m-%dT%H-%M-%S')"
-    - name: Test with environment variables
-      run: echo $TAG_NAME - $RELEASE_NAME
-      env:
-        TAG_NAME: nightly-tag-${{ steps.date.outputs.date }}
-        RELEASE_NAME: nightly-release-${{ steps.date.outputs.date }}
-    - uses: actions/checkout@v2
-    - name: docker login
-      env:
-        DOCKER_USER: ${{secrets.DOCKER_USER}}
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag bertoxious/check-prod-dev:latest
+      - uses: actions/checkout@v2
 
-    - name: Docker Push
-      run: docker push ${{secrets.DOCKER_USER}}/check-prod-dev:latest
+      - name: AWS SSM Send-Command
+        uses: peterkimzz/aws-ssm-send-command@master
+        id: ssm
+        with:
+          aws-region: ${{ secrets.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          instance-ids: ${{ secrets.INSTANCE_ID }}
+
+          working-directory: /home/ec2-user/check-prod-dev
+          command: ls -al
+          comment: Hello world!
+
+      # Catch SSM outputs
+      - name: Get the outputs
+        run: echo "The Command id is ${{ steps.ssm.outputs.command-id }}"
