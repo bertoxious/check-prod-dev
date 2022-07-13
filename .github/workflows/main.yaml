@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     if: 
       contains('
-      refs/heads/main',github.ref)
+      refs/heads/dev',github.ref)
     steps:
     - name: Code pushed into the development branch 
       run: echo "Code pushed into development branch"
