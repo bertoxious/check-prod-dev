@@ -1,14 +1,45 @@
 name: AWS SSM Send-Command Example
 
-on:
-  push:
-    branches: [main]
+on: push
 jobs:
-  deploy:
-    name: Deploy to EC2 on master branch push
+  if: github.ref_name == 'main'
+  test: 
     runs-on: ubuntu-latest
-
     steps:
+    - name: Code pushed in main branch
+      run: echo "Pushed code into main branch"
+  if: github.ref_name == 'dev'
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Code pushed into the development branch 
+      run: echo "Code pushed into development branch"
+
+  # imagebuild:
+
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #   - name: Get current date
+  #     id: date
+  #     run: echo "::set-output name=date::$(date +'doctor-strange-%Y-%m-%dT%H-%M-%S')"
+  #   - name: Test with environment variables
+  #     run: echo $TAG_NAME - $RELEASE_NAME
+  #     env:
+  #       TAG_NAME: nightly-tag-${{ steps.date.outputs.date }}
+  #       RELEASE_NAME: nightly-release-${{ steps.date.outputs.date }}
+  #   - uses: actions/checkout@v2
+  #   - name: docker login
+  #     env:
+  #       DOCKER_USER: ${{secrets.DOCKER_USER}}
+  #       DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+  #     run: |
+  #       docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+  #   - name: Build the Docker image
+  #     run: docker build . --file Dockerfile --tag bertoxious/check-prod-dev:latest
+
+  #   - name: Docker Push
+  #     run: docker push ${{secrets.DOCKER_USER}}/check-prod-dev:latest
       - name: Checkout the files
         uses: actions/checkout@v2
 
@@ -19,3 +50,4 @@ jobs:
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
+
