@@ -3,15 +3,20 @@ name: AWS SSM Send-Command Example
 on: 
   push
 jobs:
-  if: github.ref_name == 'main'
+  
   test: 
     runs-on: ubuntu-latest
+    if: 
+      contains('
+      refs/heads/main',github.ref)
     steps:
     - name: Code pushed in main branch
       run: echo "Pushed code into main branch"
-  if: github.ref_name == 'dev'
   demo:
     runs-on: ubuntu-latest
+    if: 
+      contains('
+      refs/heads/main',github.ref)
     steps:
     - name: Code pushed into the development branch 
       run: echo "Code pushed into development branch"
