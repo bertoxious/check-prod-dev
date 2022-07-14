@@ -5,4 +5,4 @@ from rest_framework.response import Response
 # Create your views here.
 class Checking(APIView):
     def get(self, request, *args, **kwargs):
-        return Response(" 💨 Development  💨 💨 💨")
+        return Response(" 💨 💨 Development  💨 💨 💨")
