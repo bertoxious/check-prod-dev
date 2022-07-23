@@ -12,6 +12,24 @@ jobs:
     steps:
     - name: Code pushed in main branch
       run: echo "Pushed code into main branch"
+    - uses: actions/checkout@v2 
+    - name: Deploy in EC2
+      env:
+          PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
+          HOSTNAME : ${{ secrets.HOSTNAME  }}
+          USER_NAME : ${{ secrets.USER_NAME  }}
+          
+      run: |
+        echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+        ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+        
+          #Now we have got the access of EC2 and we will start the deploy .
+          cd /home/ec2-user/docker-aws-ec2 &&
+          git checkout main &&
+          git fetch --all &&
+          git reset --hard origin/main &&
+          git pull origin main &&
+          docker-compose -f docker-compose.yml up -d --build 
   demo:
     runs-on: ubuntu-latest
     if: 
@@ -20,6 +38,7 @@ jobs:
     steps:
     - name: Code pushed into the development branch 
       run: echo "Code pushed into development branch"
+    
 
   # imagebuild:
 
