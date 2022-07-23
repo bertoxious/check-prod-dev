@@ -51,6 +51,9 @@ jobs:
       run: |
         pwd
         docker-compose -f docker-compose.yml up -d --build
+    - name: Install SSH key
+      run: |
+        ssh -i {secrets.EC2_SSH_KEY} ec2-user@3.108.63.201
       
 
   demo:
