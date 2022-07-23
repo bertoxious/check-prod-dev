@@ -41,18 +41,18 @@ jobs:
         REMOTE_HOST: ${{ secrets.HOST_NAME }}
         REMOTE_USER: ${{ secrets.USER_NAME }}
         TARGET: ${{ secrets.TARGET_DIR }}
-    - name: Checking the Code inside the ec2 
-      
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY }}
-        REMOTE_HOST: ${{ secrets.HOST_NAME }}
-        REMOTE_USER: ${{ secrets.USER_NAME }}
-        TARGET: ${{ secrets.TARGET_DIR }}
-      run: |
-        pwd
-    - name: Install SSH key
-      run: |
-        ssh -i {{secrets.EC2_SSH_KEY}} 
+    - name: AWS SSM Send-Command
+      uses: peterkimzz/aws-ssm-send-command@master
+      id: ssm
+      with:
+        aws-region: ap-south-1
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        instance-ids: ${{ secrets.INSTANCE_ID }}
+
+        working-directory: /home/ec2-user/docker-aws-ec2
+        command: ls -al
+        comment: Hello world! 
       
 
   demo:
