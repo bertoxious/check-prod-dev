@@ -30,7 +30,11 @@ jobs:
       #     git reset --hard origin/main &&
       #     git pull origin main &&
       #     docker-compose -f docker-compose.yml up -d --build 
-      run: pwd 
+      run: |
+        pwd && 
+        git status && 
+        git branch 
+
   demo:
     runs-on: ubuntu-latest
     if: 
