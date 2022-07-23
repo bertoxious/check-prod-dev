@@ -12,29 +12,29 @@ jobs:
     steps:
     - name: Code pushed in main branch
       run: echo "Pushed code into main branch"
-    - uses: actions/checkout@v2 
-    - name: Deploy in EC2  
-      run: |
-        # echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-        # ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+    # - uses: actions/checkout@v2 
+    # - name: Deploy in EC2  
+    #   run: |
+    #     # echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+    #     # ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
         
-        #   #Now we have got the access of EC2 and we will start the deploy .
-        #   cd /home/ec2-user/docker-aws-ec2 &&
-        #   git checkout main &&
-        #   git fetch --all &&
-        #   git reset --hard origin/main &&
-        #   git pull origin main &&
-        #   docker-compose -f docker-compose.yml up -d --build 
-        echo "This is the working directory that we got from deploy in ec2 action" &&
-        pwd
-      env:
-          PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
-          HOSTNAME : ${{ secrets.HOST_NAME  }}
-          USER_NAME : ${{ secrets.USER_NAME  }}
+    #     #   #Now we have got the access of EC2 and we will start the deploy .
+    #     #   cd /home/ec2-user/docker-aws-ec2 &&
+    #     #   git checkout main &&
+    #     #   git fetch --all &&
+    #     #   git reset --hard origin/main &&
+    #     #   git pull origin main &&
+    #     #   docker-compose -f docker-compose.yml up -d --build 
+    #     echo "This is the working directory that we got from deploy in ec2 action" &&
+    #     pwd
+    #   env:
+    #       PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
+    #       HOSTNAME : ${{ secrets.HOST_NAME  }}
+    #       USER_NAME : ${{ secrets.USER_NAME  }}
     - name: Checkout the files
       uses: actions/checkout@v2
 
-    - name: Deploy to Server 1
+    - name: Deploying code to production server
       uses: easingthemes/ssh-deploy@main
       env:
         SSH_PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY }}
@@ -43,7 +43,11 @@ jobs:
         TARGET: ${{ secrets.TARGET_DIR }}
     - name: Checking the Code inside the ec2 
       run: echo "The Directory ---- > \n" && pwd
-
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY }}
+        REMOTE_HOST: ${{ secrets.HOST_NAME }}
+        REMOTE_USER: ${{ secrets.USER_NAME }}
+        TARGET: ${{ secrets.TARGET_DIR }}
       
 
   demo:
