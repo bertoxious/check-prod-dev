@@ -35,13 +35,14 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Deploy to Server 1
-#       uses: easingthemes/ssh-deploy@main
+      uses: easingthemes/ssh-deploy@main
       env:
         SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
         REMOTE_HOST: ${{ secrets.HOST_NAME }}
         REMOTE_USER: ${{ secrets.USER_NAME }}
         TARGET: ${{ secrets.TARGET_DIR }}
-      run: pwd 
+    - name: Checking the Code inside the ec2 
+      run: echo "The Directory ---- > \n" && pwd
 
       
 
