@@ -42,7 +42,7 @@ jobs:
         REMOTE_USER: ${{ secrets.USER_NAME }}
         TARGET: ${{ secrets.TARGET_DIR }}
     - name: Checking the Code inside the ec2 
-      run: echo "The Directory ---- > \n" && pwd
+      run: pwd 
       env:
         SSH_PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY }}
         REMOTE_HOST: ${{ secrets.HOST_NAME }}
