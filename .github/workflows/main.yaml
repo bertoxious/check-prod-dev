@@ -48,7 +48,7 @@ jobs:
         aws-region: ap-south-1
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        instance-ids: ${{ secrets.INSTANCE_ID }}
+        instance-ids: i-03e3fb5a2b319cba1
 
         working-directory: /home/ec2-user/docker-aws-ec2
         command: ls -al
